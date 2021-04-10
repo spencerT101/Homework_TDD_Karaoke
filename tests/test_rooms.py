@@ -7,7 +7,7 @@ class TestRooms(unittest.TestCase):
 
     def setUp(self):
 
-        self.rooms_1 = Rooms("Gold")
+        self.rooms_1 = Rooms("Gold", 5)
         self.du_hast = Songs("Du Hast", "Rammstein")
         self.john = Guests("John")
 
@@ -22,12 +22,29 @@ class TestRooms(unittest.TestCase):
         self.rooms_1.add_song_to_song_queue(self.du_hast)
         self.assertEqual(1, len(self.rooms_1.song_queue))
     
+    def test_remove_song_from_song_queue(self):
+        self.rooms_1.add_song_to_song_queue(self.du_hast)
+        self.rooms_1.remove_song_from_song_queue(self.du_hast)
+        self.assertEqual(0, len(self.rooms_1.song_queue))
+
     def test_occupants_is_0(self):
         self.assertEqual(0, len(self.rooms_1.occupants))
     
-    def test_add_occupant_to_room(self):
-        self.rooms_1.add_occupant_to_room(self.john)
+    def test_checkin_occupant_to_room(self):
+        self.rooms_1.checkin_occupant_to_room(self.john)
         self.assertEqual(1, len(self.rooms_1.occupants))
+    
+    def test_checkout_occupant_from_room(self):
+        self.rooms_1.checkin_occupant_to_room(self.john)
+        self.rooms_1.checkout_occupant_from_room(self.john)
+        self.assertEqual(0, len(self.rooms_1.occupants))
+    
+    def test_room_has_seats(self):
+        self.assertEqual(5, self.rooms_1.seats)
+    
+    def test_room_has_space(self):
+        self.rooms_1.checkin_occupant_to_room(self.john)
+        self.assertEqual("Seats Available", self.rooms_1.room_has_space)
     
 
 
