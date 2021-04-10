@@ -27,4 +27,8 @@ class Rooms:
     def checkout_occupant_from_room(self, occupant):
         return self.occupants.remove(occupant)
     
-    def room_has_space()
+    def room_has_space(self, seat_taken):
+        if seat_taken <= self.seats:
+            return "Seats Available!"
+        
+        return "Sold Out!"
