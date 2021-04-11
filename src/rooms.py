@@ -1,10 +1,11 @@
 class Rooms:
 
-    def __init__(self, name, seats):
+    def __init__(self, name, seats, fee):
         self.name = name
         self.occupants = []
         self.song_queue = []
         self.seats = seats
+        self.fee = fee
         
 
     
@@ -29,6 +30,14 @@ class Rooms:
     
     def room_has_space(self, seat_taken):
         if seat_taken <= self.seats:
+
             return "Seats Available!"
         
         return "Sold Out!"
+    
+    def customer_can_afford_entry_fee(self, money):
+        if money >= self.fee:
+
+            return True
+        
+        return False

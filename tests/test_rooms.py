@@ -2,20 +2,21 @@ import unittest
 from src.rooms import Rooms
 from src.guests import Guests
 from src.songs import Songs
+from tests.test_songs import TestSongs
 
 class TestRooms(unittest.TestCase):
 
     def setUp(self):
 
-        self.rooms_1 = Rooms("Gold", 5)
-        self.rooms_2 = Rooms("Green", 4)
+        self.rooms_1 = Rooms("Gold", 5, 7)
+        self.rooms_2 = Rooms("Green", 4, 8)
         self.du_hast = Songs("Du Hast", "Rammstein")
-        self.john = Guests("John")
-        self.sam = Guests("Sam")
-        self.julie = Guests("Julie")
-        self.phoebe = Guests("Phoebe")
-        self.harry = Guests("Harry")
-        self.zoe = Guests("Zoe")
+        self.john = Guests("John", 50)
+        self.sam = Guests("Sam", 70)
+        self.julie = Guests("Julie", 20)
+        self.phoebe = Guests("Phoebe", 30)
+        self.harry = Guests("Harry", 40)
+        self.zoe = Guests("Zoe", 5)
     
     def test_room_has_name(self):
         self.assertEqual("Gold", self.rooms_1.name)
@@ -23,9 +24,14 @@ class TestRooms(unittest.TestCase):
     def test_song_queue_is_0(self):
         self.assertEqual(0, len(self.rooms_1.song_queue))
     
+    # def test_add_song_to_song_queue(self):
+    #     Songs.song_1.song_name
+    #     self.rooms_1.add_song_to_queue(song_1.song_name)
+    #     self.assertEqual(1, len(self.rooms_1.song_queue))
+    
     def test_add_song_to_song_queue(self):
-        self.rooms_1.add_song_to_song_queue(self.du_hast)
-        self.assertEqual(1, len(self.rooms_1.song_queue))
+         self.rooms_1.add_song_to_song_queue(self.du_hast)
+         self.assertEqual(1, len(self.rooms_1.song_queue))
     
     def test_remove_song_from_song_queue(self):
         self.rooms_1.add_song_to_song_queue(self.du_hast)
@@ -66,8 +72,17 @@ class TestRooms(unittest.TestCase):
         self.rooms_1.checkin_occupant_to_room(self.sam)
         self.rooms_1.checkout_occupant_from_room(self.sam)
         self.rooms_2.checkin_occupant_to_room(self.sam)
-        self.assertEqual(0, self.rooms_1.song_queue)
-        self.assertEqual(1, self.rooms_2.song_queue)
+        self.assertEqual(0, len(self.rooms_1.occupants))
+        self.assertEqual(1, len(self.rooms_2.occupants))
+    
+    def test_customer_can_afford_entry_fee(self):
+        money = self.john.wallet
+        self.assertEqual(True, self.rooms_1.customer_can_afford_entry_fee(money))
+    
+    def test_customer_cannot_afford_entry_fee(self):
+        money = self.zoe.wallet
+        self.assertEqual(False, self.rooms_2.customer_can_afford_entry_fee(money))
+
     
 
 
